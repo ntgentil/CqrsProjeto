@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Adapters\SqlServer\" />
+    <Folder Include="Application\Importacao\Commands\Models\" />
+    <Folder Include="Application\Importacao\Queries\Inputs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BaseCore\BaseCore.csproj" />
+  </ItemGroup>
+
+</Project>
