@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace CQRSProjeto.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
-    public class ImportController : Controller
+    public class ImportController : ControllerBase
     {
         private readonly ICommandDispatcher CommandDispatcher;
 
