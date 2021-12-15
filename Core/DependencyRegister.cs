@@ -10,7 +10,7 @@ namespace Core
         public static IServiceCollection RegisterValidacaoCalculoDependecies(this IServiceCollection services)
         {
             services.AddScoped<ICommandHandler<ImportacaoCommand>, ImportacaoCommandHandler>();
-            services.AddScoped<IValidacaoCalculoQuery, ValidacaoCalculoQuery>();
+            //services.AddScoped<IValidacaoCalculoQuery, ValidacaoCalculoQuery>();
 
             return services;
         }
