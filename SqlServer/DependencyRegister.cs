@@ -22,7 +22,7 @@ namespace SqlServer
             return services;
         }
 
-        public static IServiceCollection RegisterSqlServerDependencies(this IServiceCollection services)
+        public static IServiceCollection RegisterSqlServerDependencies(this IServiceCollection services, Microsoft.Extensions.Configuration.IConfiguration configuration)
         {
             services.AddScoped<DomainDataContext, DomainDataContext>();
             services.AddScoped<IUnitOfWork, DomainUnitOfWork>();

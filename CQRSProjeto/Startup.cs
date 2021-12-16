@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using SqlServer;
 
 namespace CQRSProjeto
 {
@@ -34,10 +35,11 @@ namespace CQRSProjeto
                     });
             });
 
+
             services
-               .RegisterCoreDependencies(Configuration);
-               //.RegisterCoreDependencies()
-               //.RegisterSqlServerDependencies();
+               .RegisterCoreDependencies(Configuration)
+               .RegisterSqlServerDependencies(Configuration)
+               .RegisterDomainDependencies();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
