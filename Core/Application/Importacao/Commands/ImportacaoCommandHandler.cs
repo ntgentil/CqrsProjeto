@@ -33,7 +33,7 @@ namespace Core.Application.Importacao.Commands
             {
                 var validacaoResult = ErrosValidacaoResult.Parse(command.Notifications);
 
-                var mensagens = await ImportacaoQuery.ListarMensagensPorEnumeradores(validacaoResult.Erros);
+                //var mensagens = await ImportacaoQuery.ListarMensagensPorEnumeradores(validacaoResult.Erros);
 
                 try
                 {

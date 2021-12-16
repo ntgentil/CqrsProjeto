@@ -1,8 +1,12 @@
 ﻿using BaseCore.Commands;
+using BaseCore.Queries;
 using Core.Application.Importacao.Commands.Results;
+using Core.Application.Importacao.Queries.Inputs;
+using Core.Application.Importacao.Queries.Results;
 using CQRSProjeto.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CQRSProjeto.Controllers
@@ -11,10 +15,12 @@ namespace CQRSProjeto.Controllers
     [ApiController]
     public class ImportController : ControllerBase
     {
+        private IQueryProcessor Processor { get; }
         private readonly ICommandDispatcher CommandDispatcher;
 
-        public ImportController(ICommandDispatcher dispatcher)
+        public ImportController(IQueryProcessor processor, ICommandDispatcher dispatcher)
         {
+            Processor = processor;
             CommandDispatcher = dispatcher;
         }
 
@@ -47,7 +53,7 @@ namespace CQRSProjeto.Controllers
         [ProducesResponseType(typeof(ApiResult<ErrosValidacaoResult>), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> GetAllImports()
         {
-            //var result = await CommandDispatcher.ExecuteAsync(command);
+            //var result = await CommandDispatcher.ExecuteAsync(id);
 
             //if (result.Success)
             //    return Ok(ApiResult.Ok(ApplicationMessages.ValidacaoCalculoAprovada));
@@ -55,6 +61,7 @@ namespace CQRSProjeto.Controllers
             //    return UnprocessableEntity(ApiResult.Fail(result.ErrorMessages));
 
             return Ok();
+
         }
 
         /// <summary>
@@ -66,14 +73,12 @@ namespace CQRSProjeto.Controllers
         [ProducesResponseType(typeof(ApiResult<ErrosValidacaoResult>), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> GetImportById([FromRoute] int id)
         {
-            //var result = await CommandDispatcher.ExecuteAsync(id);
+            var param = new ProdutoIdInput() { Id = id };
 
-            //if (result.Success)
-            //    return Ok(ApiResult.Ok(ApplicationMessages.ValidacaoCalculoAprovada));
-            //else
-            //    return UnprocessableEntity(ApiResult.Fail(result.ErrorMessages));
+            var result = await Processor
+                .ExecuteQueryAsync<ProdutoIdInput, ProdutoResult>(param);
 
-            return Ok();
+            return Ok(ApiResult.Ok(result));
         }
     }
 }

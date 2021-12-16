@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BaseCore.Commands;
+using BaseCore.Data;
+using System;
 using System.Threading.Tasks;
 
 namespace BaseCore.Queries
@@ -16,12 +18,21 @@ namespace BaseCore.Queries
             TQueryParameters queryParameters)
             where TQueryParameters : IQuery
         {
-            if (queryParameters == null)
-                throw new ArgumentNullException(nameof(queryParameters));
+            try
+            {
+                if (queryParameters == null)
+                    throw new ArgumentNullException(nameof(queryParameters));
 
-            var queryHandler = _dependencyResolver.Resolve<IQueryHandler<TQueryParameters, TResult>>();
+                var queryHandler = _dependencyResolver.Resolve<IQueryHandler<TQueryParameters, TResult>>();
 
-            return await queryHandler.ExecuteAsync(queryParameters);
+                return await queryHandler.ExecuteAsync(queryParameters);
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+            
         }
 
         public async Task<TResult> ExecutePagedQueryAsync<TPagedQueryParameters, TResult>(
@@ -35,5 +46,6 @@ namespace BaseCore.Queries
 
             return await queryHandler.ExecuteQueryAsync(pagingQueryParameters);
         }
+
     }
 }

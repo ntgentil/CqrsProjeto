@@ -1,6 +1,8 @@
 ﻿using BaseCore.Commands;
+using Core.Adapters.Queries;
 using Core.Application.Importacao.Commands;
 using Core.Application.Importacao.Commands.Inputs;
+using Core.Application.Importacao.Queries;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Core
@@ -10,7 +12,6 @@ namespace Core
         public static IServiceCollection RegisterValidacaoCalculoDependecies(this IServiceCollection services)
         {
             services.AddScoped<ICommandHandler<ImportacaoCommand>, ImportacaoCommandHandler>();
-            //services.AddScoped<IValidacaoCalculoQuery, ValidacaoCalculoQuery>();
 
             return services;
         }
