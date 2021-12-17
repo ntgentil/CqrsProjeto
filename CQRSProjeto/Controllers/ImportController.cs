@@ -57,7 +57,7 @@ namespace CQRSProjeto.Controllers
                 .ExecuteQueryAsync<ProdutoAllInput, ProdutosResult>(new ProdutoAllInput());
 
             if (result.Produtos.Count == 0)
-                return NotFound(ApiResult.Fail(@"Produto não encontrado."));
+                return NotFound(ApiResult.Fail(@"Não existem produtos cadastrados."));
 
             return Ok(ApiResult.Ok(result));
 
