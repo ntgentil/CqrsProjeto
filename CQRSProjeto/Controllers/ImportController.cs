@@ -53,14 +53,13 @@ namespace CQRSProjeto.Controllers
         [ProducesResponseType(typeof(ApiResult<ErrosValidacaoResult>), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> GetAllImports()
         {
-            //var result = await CommandDispatcher.ExecuteAsync(id);
+            var result = await Processor
+                .ExecuteQueryAsync<ProdutoAllInput, ProdutosResult>(new ProdutoAllInput());
 
-            //if (result.Success)
-            //    return Ok(ApiResult.Ok(ApplicationMessages.ValidacaoCalculoAprovada));
-            //else
-            //    return UnprocessableEntity(ApiResult.Fail(result.ErrorMessages));
+            if (result.Produtos.Count == 0)
+                return NotFound(ApiResult.Fail(@"Produto não encontrado."));
 
-            return Ok();
+            return Ok(ApiResult.Ok(result));
 
         }
 
@@ -77,6 +76,10 @@ namespace CQRSProjeto.Controllers
 
             var result = await Processor
                 .ExecuteQueryAsync<ProdutoIdInput, ProdutoResult>(param);
+
+            if (result.Id == 0)
+                return NotFound(ApiResult.Fail(@"Produto não encontrado."));
+            
 
             return Ok(ApiResult.Ok(result));
         }

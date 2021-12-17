@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core.Application.Importacao.Queries
 {
-    public class ImportacaoQuery
+    public class ImportacaoQuery : IImportacaoQuery
     {
 
         private readonly ISqlServerStoreHolder _sqlServerStoreHolder;
@@ -35,6 +35,30 @@ namespace Core.Application.Importacao.Queries
                     {
                         result.Id = Convert.ToInt32(dataReader["ID"]);
                         result.Nome = dataReader["NOME"].ToString();
+                    }
+                }
+            }
+
+            
+
+            return result;
+        }
+
+        public async Task<ProdutosResult> GetProdutos()
+        {
+            var result = new ProdutosResult();
+            await using var conn = (SqlConnection)_sqlServerStoreHolder.GetDbConnection("CQRS");
+
+            const string query = @"SELECT * FROM PRODUTO";
+
+            using (SqlCommand command = new SqlCommand(query, conn))
+            {
+                conn.Open();
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        result.Produtos.Add(new ProdutoResult { Id = Convert.ToInt32(dataReader["ID"]), Nome = dataReader["NOME"].ToString()});
                     }
                 }
             }

@@ -9,5 +9,6 @@ namespace Core.Adapters.Queries
     public interface IImportacaoQuery
     {
         Task<ProdutoResult> GetProduto(ProdutoIdInput produtoId);
+        Task<ProdutosResult> GetProdutos();
     }
 }

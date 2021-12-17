@@ -36,6 +36,7 @@ namespace SqlServer
         {
             services.AddScoped<ImportacaoQuery, ImportacaoQuery>();
             services.AddScoped<IQueryHandler<ProdutoIdInput, ProdutoResult>, ImportacaoQueryHandler>();
+            services.AddScoped<IQueryHandler<ProdutoAllInput, ProdutosResult>, ImportacaoQueryHandler>();
 
             return services;
         }
