@@ -6,9 +6,8 @@ namespace Core.Application.Importacao.Commands.Inputs
 {
     public class ImportacaoCommand : Notifiable, IValidatable, ICommand
     {
-        public string Cpf { get; set; }
-        public string Matricula { get; set; }
-
+        public string File { get; set; }
+        
         public void Validate()
         {
             throw new System.NotImplementedException();

@@ -7,6 +7,7 @@ using CQRSProjeto.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace CQRSProjeto.Controllers
@@ -33,12 +34,25 @@ namespace CQRSProjeto.Controllers
         [ProducesResponseType(typeof(ApiResult<ErrosValidacaoResult>), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> Insert(IFormFile file)
         {
-            //var result = await CommandDispatcher.ExecuteAsync(command);
+            if (file == null || file.Length == 0)
+                return NotFound(ApiResult.Fail(@"Arquivo não encontrado."));
 
-            //if (result.Success)
-            //    return Ok(ApiResult.Ok(ApplicationMessages.ValidacaoCalculoAprovada));
-            //else
-            //    return UnprocessableEntity(ApiResult.Fail(result.ErrorMessages));
+
+            //Get file
+            var newfile = new FileInfo(file.FileName);
+            var fileExtension = newfile.Extension;
+
+            if (!fileExtension.Contains(".xlsx"))
+                return NotFound(ApiResult.Fail(@"Extenção do arquivo não é permitido."));
+
+
+
+            var result = await CommandDispatcher.ExecuteAsync(command);
+
+            if (result.Success)
+                return Ok(ApiResult.Ok(ApplicationMessages.ValidacaoCalculoAprovada));
+            else
+                return UnprocessableEntity(ApiResult.Fail(result.ErrorMessages));
 
             return Ok();
         }
