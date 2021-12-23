@@ -1,16 +1,13 @@
 ﻿using Core.Application.Importacao.Commands.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Core.Adapters.SqlServer
 {
     public interface IUnitOfWork : IDisposable
     {
         public Repository<ProdutoEntity> ProdutoRepository { get; }
-        //public Repository<HistoricoMensagemEntity> HistoricoMensagemRepository { get; }
+        public Repository<ImportacaoEntity> ImportacaoRepository { get; }
+        public Repository<ImportacaoProdutoEntity> ImportacaoProdutoRepository { get; }
         void Commit();
         void Rollback();
     }

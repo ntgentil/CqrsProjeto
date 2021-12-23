@@ -3,6 +3,7 @@ using BaseCore.Data;
 using Core.Adapters.Queries;
 using Core.Adapters.SqlServer;
 using Core.Application.Importacao.Commands.Inputs;
+using Core.Application.Importacao.Commands.Models;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,12 +28,34 @@ namespace Core.Application.Importacao.Commands
 
             if (!command.Invalid)
             {
-                
-                //var mensagens = await ImportacaoQuery.ListarMensagensPorEnumeradores(validacaoResult.Erros);
-
                 try
                 {
+                    var importacao = new ImportacaoEntity();
+                    UnitOfWork.ImportacaoRepository.Insert(importacao);
                     
+
+                    foreach (var item in command.Produtos)
+                    {
+                        var produto = new ProdutoEntity
+                        {
+                            DataEntrega = DateTime.Now,
+                            Nome = item.Nome,
+                            Quantidade = item.Quantidade,
+                            Valor = item.Valor
+                        };
+                        UnitOfWork.ProdutoRepository.Insert(produto);
+
+                        UnitOfWork.ImportacaoProdutoRepository.Insert(
+                            new ImportacaoProdutoEntity
+                            {
+                                ImportacaoId = importacao.Id,
+                                Importacao = importacao,
+                                Produto = produto,
+                                ProdutoId = produto.Id
+                            }
+                        );
+
+                    }
 
                     UnitOfWork.Commit();
                 }
@@ -44,7 +67,7 @@ namespace Core.Application.Importacao.Commands
                 return await Task.FromResult(Result.Ok());
             }
             return await Task.FromResult(Result.Fail(command.Notifications));
-            
+
         }
     }
 }

@@ -13,7 +13,7 @@ namespace SqlServer.Configurations
     {
         public void Configure(EntityTypeBuilder<ImportacaoProdutoEntity> builder)
         {
-            builder.ToTable("IMPORTACAO");
+            builder.ToTable("IMPORTACAO_PRODUTO");
 
             builder.HasKey(x => new { x.ImportacaoId, x.ProdutoId });
 

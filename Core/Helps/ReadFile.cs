@@ -66,6 +66,10 @@ namespace Core.Helps
                                 {
                                     produtoResult.DataEntrega = DateTime.FromOADate(cellDouble);
                                 }
+                                else
+                                {
+                                    produtoResult.DataEntrega = DateTime.MinValue;
+                                }
                                 //produtoResult.Linha = 
                                 break;
 
@@ -74,7 +78,7 @@ namespace Core.Helps
                                 break;
 
                             case 3:
-                                produtoResult.Quantidade = long.Parse(cellText);
+                                produtoResult.Quantidade = string.IsNullOrEmpty(cellText) ? 0 : int.Parse(cellText);
                                 break;
 
                             case 4:

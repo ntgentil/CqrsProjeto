@@ -13,7 +13,11 @@ namespace SqlServer
         private readonly DomainDataContext _db;
 
         private Repository<ProdutoEntity> produtoRepository;
+        private Repository<ImportacaoEntity> importacaoRepository;
+        private Repository<ImportacaoProdutoEntity> importacaoProdutoRepository;
         public Repository<ProdutoEntity> ProdutoRepository => produtoRepository ??= new Repository<ProdutoEntity>(_db);
+        public Repository<ImportacaoEntity> ImportacaoRepository => importacaoRepository ??= new Repository<ImportacaoEntity>(_db);
+        public Repository<ImportacaoProdutoEntity> ImportacaoProdutoRepository => importacaoProdutoRepository ??= new Repository<ImportacaoProdutoEntity>(_db);
 
         /// <summary>
         /// Constructor
