@@ -1,8 +1,9 @@
 ﻿using BaseCore.Commands;
 using BaseCore.Queries;
-using Core.Application.Importacao.Commands.Results;
+using Core.Application.Importacao.Commands.Inputs;
 using Core.Application.Importacao.Queries.Inputs;
 using Core.Application.Importacao.Queries.Results;
+using Core.Helps;
 using CQRSProjeto.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,26 +32,24 @@ namespace CQRSProjeto.Controllers
         /// <returns></returns>
         [HttpPost("Insert")]
         [ProducesResponseType(typeof(ApiResult<string>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResult<ErrosValidacaoResult>), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ApiResult<>), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> Insert(IFormFile file)
         {
             if (file == null || file.Length == 0)
                 return NotFound(ApiResult.Fail(@"Arquivo não encontrado."));
 
-
-            //Get file
-            var newfile = new FileInfo(file.FileName);
-            var fileExtension = newfile.Extension;
-
-            if (!fileExtension.Contains(".xlsx"))
+            var fileLoaded = new FileInfo(file.FileName);
+            MemoryStream memoryStream = new MemoryStream();
+            file.CopyTo(memoryStream);
+            if (!fileLoaded.Extension.Contains(".xlsx"))
                 return NotFound(ApiResult.Fail(@"Extenção do arquivo não é permitido."));
 
-
+            ImportacaoCommand command = new ReadFile().ReadAllLines(memoryStream);
 
             var result = await CommandDispatcher.ExecuteAsync(command);
 
             if (result.Success)
-                return Ok(ApiResult.Ok(ApplicationMessages.ValidacaoCalculoAprovada));
+                return Ok(ApiResult.Ok());
             else
                 return UnprocessableEntity(ApiResult.Fail(result.ErrorMessages));
 
@@ -64,7 +63,7 @@ namespace CQRSProjeto.Controllers
         /// <returns></returns>
         [HttpGet("GetAllImports")]
         [ProducesResponseType(typeof(ApiResult<string>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResult<ErrosValidacaoResult>), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ApiResult<>), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> GetAllImports()
         {
             var result = await Processor
@@ -83,7 +82,7 @@ namespace CQRSProjeto.Controllers
         /// <returns></returns>
         [HttpGet("GetImportById/{id}")]
         [ProducesResponseType(typeof(ApiResult<string>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResult<ErrosValidacaoResult>), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(ApiResult<>), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> GetImportById([FromRoute] int id)
         {
             var param = new ProdutoIdInput() { Id = id };
@@ -93,9 +92,12 @@ namespace CQRSProjeto.Controllers
 
             if (result.Id == 0)
                 return NotFound(ApiResult.Fail(@"Produto não encontrado."));
-            
+
 
             return Ok(ApiResult.Ok(result));
         }
+
+
+        
     }
 }

@@ -1,5 +1,8 @@
-﻿using BaseCore.Queries;
+﻿using BaseCore.Commands;
+using BaseCore.Queries;
 using Core.Adapters.SqlServer;
+using Core.Application.Importacao.Commands;
+using Core.Application.Importacao.Commands.Inputs;
 using Core.Application.Importacao.Queries;
 using Core.Application.Importacao.Queries.Inputs;
 using Core.Application.Importacao.Queries.Results;
@@ -37,6 +40,7 @@ namespace SqlServer
             services.AddScoped<ImportacaoQuery, ImportacaoQuery>();
             services.AddScoped<IQueryHandler<ProdutoIdInput, ProdutoResult>, ImportacaoQueryHandler>();
             services.AddScoped<IQueryHandler<ProdutoAllInput, ProdutosResult>, ImportacaoQueryHandler>();
+            services.AddScoped<ICommandHandler<ImportacaoCommand>, ImportacaoCommandHandler>();
 
             return services;
         }

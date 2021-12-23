@@ -2,7 +2,7 @@
 
 namespace Core.Application.Importacao.Queries.Inputs
 {
-    public class ProdutoIdInput : IQuery
+    public class ProdutoAllInput : IQuery
     {
         public int Id { get; set; }
     }
