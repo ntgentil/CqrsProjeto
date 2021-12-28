@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Core.Application.Importacao.Queries.Results
+namespace Core.Application.Importacao.Queries
 {
-    public class ProdutoResult
+    public class ProdutoDto
     {
         public int Id { get; set; }
         public string Nome { get; set; }
@@ -10,5 +10,4 @@ namespace Core.Application.Importacao.Queries.Results
         public DateTime DataEntrega { get; set; }
         public decimal Valor { get; set; }
     }
-
 }

@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 namespace Core.Application.Importacao.Queries
 {
     public class ImportacaoQueryHandler :
-        IQueryHandler<ProdutoIdInput, ProdutoResult>,
-        IQueryHandler<ProdutoAllInput, ProdutosResult>
+        IQueryHandler<ImportacaoIdInput, ImportacaoProsdutosResult>,
+        IQueryHandler<ImportacaoAllInput, ImportacoesResult>
     {
         private ImportacaoQuery ImportacaoQuery { get; }
 
@@ -18,14 +18,15 @@ namespace Core.Application.Importacao.Queries
             ImportacaoQuery = importacaoQuery;
         }
 
-        public async Task<ProdutoResult> ExecuteAsync(ProdutoIdInput parameters)
+        public async Task<ImportacaoProsdutosResult> ExecuteAsync(ImportacaoIdInput parameters)
         {
-            return await ImportacaoQuery.GetProduto(parameters);
+            var produtos = await ImportacaoQuery.GetImportacao(parameters);
+            return ImportacaoProsdutosResult.Parse(produtos);
         }
 
-        public async Task<ProdutosResult> ExecuteAsync(ProdutoAllInput parameters)
+        public async Task<ImportacoesResult> ExecuteAsync(ImportacaoAllInput parameters)
         {
-            return await ImportacaoQuery.GetProdutos();
+            return await ImportacaoQuery.GetImportacoes();
         }
     }
 }

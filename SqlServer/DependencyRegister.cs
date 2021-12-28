@@ -38,8 +38,8 @@ namespace SqlServer
         private static IServiceCollection RegisterClienteDependecies(this IServiceCollection services)
         {
             services.AddScoped<ImportacaoQuery, ImportacaoQuery>();
-            services.AddScoped<IQueryHandler<ProdutoIdInput, ProdutoResult>, ImportacaoQueryHandler>();
-            services.AddScoped<IQueryHandler<ProdutoAllInput, ProdutosResult>, ImportacaoQueryHandler>();
+            services.AddScoped<IQueryHandler<ImportacaoIdInput, ImportacaoProsdutosResult>, ImportacaoQueryHandler>();
+            services.AddScoped<IQueryHandler<ImportacaoAllInput, ImportacoesResult>, ImportacaoQueryHandler>();
             services.AddScoped<ICommandHandler<ImportacaoCommand>, ImportacaoCommandHandler>();
 
             return services;

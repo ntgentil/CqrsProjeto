@@ -67,9 +67,9 @@ namespace CQRSProjeto.Controllers
         public async Task<IActionResult> GetAllImports()
         {
             var result = await Processor
-                .ExecuteQueryAsync<ProdutoAllInput, ProdutosResult>(new ProdutoAllInput());
+                .ExecuteQueryAsync<ImportacaoAllInput, ImportacoesResult>(new ImportacaoAllInput());
 
-            if (result.Produtos.Count == 0)
+            if (result.Importacoes.Count == 0)
                 return NotFound(ApiResult.Fail(@"Não existem produtos cadastrados."));
 
             return Ok(ApiResult.Ok(result));
@@ -85,13 +85,13 @@ namespace CQRSProjeto.Controllers
         [ProducesResponseType(typeof(ApiResult<>), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> GetImportById([FromRoute] int id)
         {
-            var param = new ProdutoIdInput() { Id = id };
+            var param = new ImportacaoIdInput() { Id = id };
 
             var result = await Processor
-                .ExecuteQueryAsync<ProdutoIdInput, ProdutoResult>(param);
+                .ExecuteQueryAsync<ImportacaoIdInput, ImportacaoProsdutosResult>(param);
 
-            if (result.Id == 0)
-                return NotFound(ApiResult.Fail(@"Produto não encontrado."));
+            if (result.Produtos.Count == 0)
+                return NotFound(ApiResult.Fail(@"Importação não encontrada."));
 
 
             return Ok(ApiResult.Ok(result));
